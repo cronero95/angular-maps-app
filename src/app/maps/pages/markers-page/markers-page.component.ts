@@ -26,12 +26,6 @@ export class MarkersPageComponent implements AfterViewInit {
 
     this.mapListeners();
 
-    const marker = new Marker({
-      color: 'green'
-    })
-      .setLngLat(this.currentLngLat)
-      .addTo(this.map);
-
   }
 
   mapListeners(): void {
@@ -50,6 +44,26 @@ export class MarkersPageComponent implements AfterViewInit {
     this.map.on('move', (env) => {
       this.currentLngLat = this.map!.getCenter();
     })
+  }
+
+  createMarker(): void {
+    if(!this.map) return;
+
+    const color = '#xxxxxx'.replace(/x/g, y=>(Math.random()*16|0).toString(16));
+
+    this.addMarker(this.currentLngLat, color);
+  }
+
+  addMarker(lngLat: LngLat, color: string): void {
+    if(!this.map) throw Error('Uninitialized map');
+
+    const marker = new Marker({
+      color,
+      draggable: true
+    })
+      .setLngLat(lngLat)
+      .addTo(this.map)
+
   }
 
 }

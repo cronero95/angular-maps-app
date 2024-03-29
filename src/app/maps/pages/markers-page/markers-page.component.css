@@ -2,3 +2,15 @@
   width:  100vw;
   height: 100vh;
 }
+
+button {
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+}
+
+#markers {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+}
