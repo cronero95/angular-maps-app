@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { environment  } from "../../environments/environments";
 
 import mapboxgl from 'mapbox-gl';
-(mapboxgl as any).accessToken = 'pk.eyJ1IjoiY3JvbmVybzk1IiwiYSI6ImNsdWJxNjBtODB5YWcyams0dm84ZDljbnAifQ.5G3F6kGdxgvhQBZGFdgZXA';
+(mapboxgl as any).accessToken = environment.mapbox_key;
 
 import { MapsRoutingModule } from './maps-routing.module';
 
