@@ -13,4 +13,5 @@ button {
   position: fixed;
   top: 60px;
   right: 20px;
+  -webkit-text-stroke: 1px black;
 }
