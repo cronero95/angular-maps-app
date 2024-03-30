@@ -6,6 +6,11 @@ interface MarkerAndColor {
   color: string,
 }
 
+interface PlainMarker {
+  color: string,
+  lngLat: number[]
+}
+
 @Component({
   templateUrl: './markers-page.component.html',
   styleUrl: './markers-page.component.css'
@@ -33,6 +38,7 @@ export class MarkersPageComponent implements AfterViewInit {
 
     this.mapListeners();
 
+    this.readFromLocalStorage();
   }
 
   mapListeners(): void {
@@ -72,6 +78,8 @@ export class MarkersPageComponent implements AfterViewInit {
       .addTo(this.map)
 
     this.markers.push({marker, color});
+
+    this.saveToLocalStorage();
   }
 
   deleteMarker(index: number): void {
@@ -85,6 +93,28 @@ export class MarkersPageComponent implements AfterViewInit {
       zoom: 14,
       center: marker.getLngLat(),
     })
+  }
+
+  saveToLocalStorage(): void {
+    const plainMarkers: PlainMarker[] = this.markers.map(({marker, color}) => {
+      return{lngLat: marker.getLngLat().toArray(), color}
+    });
+
+    localStorage.setItem('plainMarkers', JSON.stringify(plainMarkers));
+
+  }
+
+  readFromLocalStorage(): void {
+    const plainMarkersString = localStorage.getItem('plainMarkers') ?? '[]';
+
+    const plainMarkers: PlainMarker[] = JSON.parse(plainMarkersString);
+
+    plainMarkers.forEach(plainMarker => {
+      const [lng, lat] = plainMarker.lngLat;
+      const coords = new LngLat(lng, lat);
+
+      this.addMarker(coords, plainMarker.color);
+    });
   }
 
 }
